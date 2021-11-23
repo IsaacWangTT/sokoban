@@ -67,12 +67,21 @@ function isWin() {
     var success = isFinished();
     if (success === true) { //判断是否为true，是则弹窗，否则跳过
         document.getElementById("box").innerHTML = "<img src = 'imgs/tgt.gif' width = '500px' height = '500px'/>"; //设置胜利界面
+        setTimeout(function() { //设置延迟
+            document.body.removeChild(document.getElementById("box")); //删除原先关卡
+            level++; //关卡数+1
+            if (level > mapArr.length - 1) {
+                alert("你已通关!");
+            } else {
+                init();
+                createMap(mapArr[level]); //创建地图
+            }
+        }, 1000);
     }
 }
 //=============================================================
 
 //==========================创建地图============================
-
 var mapArr = [ //地图编排
     [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -148,6 +157,11 @@ next.onclick = function() {
     createMap(mapArr[level]); //创建地图
 }
 
+var oRule = document.getElementById("rule");
+oRule.onclick = function() {
+    alert(" 游戏规则\n 把箱子推进坑中\n w和↑:向上移动\n s和↓:向下移动\n a和←:向左移动\n d和→:向右移动\n 0:重置背景颜色为白色\n 1:设置背景颜色为红色\n 2:设置背景颜色为黄色\n 3:设置背景颜色为蓝色\n 4:设置背景颜色为黑色\n 5:设置背景颜色为蓝绿渐变色\n 6:设置背景颜色为粉蓝渐变色");
+};
+
 //遍历
 function createMap(mapArr) { //创建大容器
     var oBox = createE({
@@ -221,12 +235,13 @@ function createMap(mapArr) { //创建大容器
                 oHole.col = col; //同82行
             }
         }
-    } //=============================================================
+    }
+    //=============================================================
 
     //=========================移动================================
     document.onkeydown = function move(e) {
             var key = e.keyCode; //定义key值为记录键位Unicode值
-            // console.log(key);  //输出键位Unicode值
+            console.log(key); //输出键位Unicode值
             /*
                 ↑: 38
                 ↓: 40
@@ -236,6 +251,11 @@ function createMap(mapArr) { //创建大容器
                 s: 83
                 a: 65
                 d: 68
+                0: 96
+                1: 97
+                2: 98
+                3: 99
+                4: 100
             */
             if (key == 38 || key == 87) { //↑
                 if (mapArr[role.row - 1][role.col] == 0) { //判断角色上方一格是否为0
@@ -348,6 +368,27 @@ function createMap(mapArr) { //创建大容器
                     }
                 }
                 role.style.backgroundImage = "url('imgs/right.png')"; //更换贴图
+            }
+            if (key == 96) { //0
+                document.body.style.backgroundColor = "white"; //调整背景颜色为白色
+            }
+            if (key == 97) { //1
+                document.body.style.backgroundColor = "red"; //调整背景颜色为红色
+            }
+            if (key == 98) { //2
+                document.body.style.backgroundColor = "yellow"; //调整背景颜色为红色
+            }
+            if (key == 99) { //3
+                document.body.style.backgroundColor = "blue"; //调整背景颜色为蓝色
+            }
+            if (key == 100) { //4
+                document.body.style.backgroundColor = "black"; //调整背景颜色为黑色
+            }
+            if (key == 101) { //5
+                document.body.style.background = "linear-gradient(90deg, rgba(61,245,167,1) 11.2%, rgba(9,111,224,1) 91.1%)";
+            }
+            if (key == 102) { //6
+                document.body.style.background = "linear-gradient(90deg, rgba(225,200,239,1) 21.4%, rgba(163,225,233,1) 57.1% )";
             }
         }
         //=============================================================
